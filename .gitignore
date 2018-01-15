@@ -57,6 +57,9 @@ typings/
 # dotenv environment variables file
 .env
 
+# VS code
+.vscode
+
 
 # Config files
 config/
