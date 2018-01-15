@@ -1,0 +1,17 @@
+{
+  "name": "main_server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon server.js"
+  },
+  "author": "anafartalar",
+  "license": "ISC",
+  "dependencies": {
+    "boom": "^7.1.1",
+    "config": "^1.29.2",
+    "hapi": "^17.2.0"
+  }
+}
