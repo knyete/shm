@@ -17,7 +17,6 @@ const plugins = [
 ];
 
 
-
 const start = async () => {
 
     await server.register(plugins);
