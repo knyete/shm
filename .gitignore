@@ -64,4 +64,6 @@ typings/
 # Config files
 config/
 
+# DB folder
+db/
 

@@ -1,4 +1,7 @@
 const Hapi = require("hapi");
+const Bot = require("./src/bot/init");
+const DB=require("./src/dbActions/db");
+const Path=require("path");
 
 
 const server = new Hapi.Server({
@@ -32,7 +35,16 @@ const start = async () => {
         }
     });
 
+    // start server
     await server.start();
+
+    // start bot
+    Bot.start();
+    // connect to local DB
+    DB.connect(Path.join(__dirname, "db/db.json"));
+    DB.test();
+
+
     return server;
 }
 
