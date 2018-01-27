@@ -1,5 +1,5 @@
 const Hapi = require("hapi");
-const Bot = require("./src/bot/init");
+const Bot = require("./src/bot/bot");
 const DB=require("./src/dbActions/db");
 const Path=require("path");
 
@@ -42,13 +42,10 @@ const start = async () => {
     Bot.start();
     // connect to local DB
     DB.connect(Path.join(__dirname, "db/db.json"));
-    DB.test();
 
 
     return server;
 }
-
-
 
 
 
