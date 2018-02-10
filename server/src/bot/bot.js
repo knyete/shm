@@ -20,6 +20,7 @@ const start = () => {
 
     bot.command('help', Routes.help);
     bot.command('alarm', Routes.alarm);
+    bot.command("temp",Routes.temp);
 
 
     bot.startPolling();
@@ -27,7 +28,7 @@ const start = () => {
 };
 
 const getInstance = () => {
-    return bot.telegram;
+    return bot;
 };
 
 

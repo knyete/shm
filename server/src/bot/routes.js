@@ -3,6 +3,7 @@ const Actions=require("./actions/index");
 
 // helper function to extract command and argument
 extractCommArgument=(msg)=>{
+    //TODO : Birden fazla argument döncek şekilde modifiye et
     let commAndArg=msg.split(" ");
 
     let comm=commAndArg[0];
@@ -20,13 +21,16 @@ extractCommArgument=(msg)=>{
 
 module.exports=()=>{
 
+    // route for help
     const help=(ctx)=>{
         return ctx.reply("Kullanabileceğiniz komutlar \
-        şunlar:\n\/sıcaklık\n\/alarm [aç,kapa]\
-        \n\/ortam");
+        şunlar:\n\/temp\n\/alarm [aç,kapa]\
+        \n\/foto");
     
     };
 
+
+// route form alarm
     const alarm=(ctx)=>{
 
         let comm,arg;
@@ -36,16 +40,26 @@ module.exports=()=>{
         let action=actions[arg];
 
         if(!action){
-            return ctx.reply(`${comm} komutundan sonra bir boşluk bırakarak aksiyon belirtmelisiniz!`);
+            return ctx.reply(`${comm} komutundan sonra bir boşluk \
+            bırakarak aksiyon belirtmelisiniz!`);
         }
 
 
         ctx.reply(action());
     };
 
+    // route for temp and humudity
+    const temp=(ctx)=>{
+        
+        let actions = Actions.getTempActions();
+
+        ctx.reply(actions.getTempAndHumidity());
+        
+    };
 
 
-    return {help,alarm};
+
+    return {help,alarm,temp};
 
 
 };

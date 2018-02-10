@@ -8,14 +8,10 @@ let db = null;
 const connect = (path) => {
     adapter = new FileSync(path);
     db = Low(adapter);
-    db.defaults({users: []}).write();
+    db.defaults({users: [],measurements:{}}).write();
 }
 
-const getDB = () => db;
+const getInstance = () => db;
 
-const test=()=>{
-    db.get("users").push({id:7,name:"Ferdi"}).write();
 
-};
-
-module.exports = { connect, getDB,test };
+module.exports = { connect, getInstance};
