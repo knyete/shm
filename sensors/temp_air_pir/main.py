@@ -1,11 +1,19 @@
-import time, micropython, dht
+import time, micropython, dht, urequests
 from machine import Timer
 from machine import Pin
+
 
 
 micropython.alloc_emergency_exception_buf(100)
 
 dht22 = dht.DHT22(Pin(4))
+
+
+
+def sendToServer():
+    headers = {'Content-Type': 'application/json'}
+    pass
+
 
 class MeasureTemp():
     def __init__(self):
@@ -20,8 +28,9 @@ class MeasureTemp():
         dht22.measure()
         self.temp=dht22.temperature()
         self.hum=dht22.humidity()
-        print("sıcaklık: {} nem: {}".format(self.temp,self.hum))
+        #print("sıcaklık: {} nem: {}".format(self.temp,self.hum))
         #print("kullanılan memory {}".format(gc.mem_alloc()))
+        data = '{"temp": "15","hum":"44.1"}'
     
     def cb(self,t):
         micropython.schedule(self.measureRef, 0)
