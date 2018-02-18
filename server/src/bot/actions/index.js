@@ -1,14 +1,14 @@
 const Alarm =require("./alarm");
-const Temp =require("./temp");
+const Ambiance =require("./ambiance");
 
 
 
 
 const alarm=Alarm();
-const temp=Temp();
+const amb=Ambiance();
 
 
-const actions=Object.assign({},alarm,temp);
+const actions=Object.assign({},alarm,amb);
 
 
 module.exports=actions;

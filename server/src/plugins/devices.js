@@ -5,8 +5,8 @@ const register=async function (server, options) {
 
     server.route({
         method: "POST",
-        path: "/api/devices/tempAndHum",
-        handler: Handlers.updateTempAndHum
+        path: "/api/devices/ambiance",
+        handler: Handlers.updateAmbianceValues
     });
     
 };

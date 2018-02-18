@@ -24,7 +24,7 @@ module.exports=()=>{
     // route for help
     const help=(ctx)=>{
         return ctx.reply("Kullanabileceğiniz komutlar \
-        şunlar:\n\/temp\n\/alarm [aç,kapa]\
+        şunlar:\n\/ambiance\n\/alarm [aç,kapa]\
         \n\/foto");
     
     };
@@ -48,18 +48,18 @@ module.exports=()=>{
         ctx.reply(action());
     };
 
-    // route for temp and humudity
-    const temp=(ctx)=>{
+    // route for ambiance values
+    const ambiance=(ctx)=>{
         
-        let actions = Actions.getTempActions();
+        let actions = Actions.getAmbianceActions();
 
-        ctx.reply(actions.getTempAndHumidity());
+        ctx.reply(actions.getAmbianceValues());
         
     };
 
 
 
-    return {help,alarm,temp};
+    return {help,alarm,ambiance};
 
 
 };
