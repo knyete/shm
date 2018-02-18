@@ -5,7 +5,7 @@ const DB=require("../dbApi/db").getControlers()
 const updateAmbianceValues=async (request, h)=>{
 
     DB.updateAmbianceValues(request.payload);
-    console.log(request.payload);
+    //console.log(request.payload);
 
     return {response:"ok."}
 

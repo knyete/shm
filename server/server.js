@@ -6,7 +6,7 @@ const Path=require("path");
 
 const server = new Hapi.Server({
     host: '0.0.0.0',
-    port: 6677
+    port: 7788
 });
 
 

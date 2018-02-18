@@ -5,7 +5,8 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon server.js"
+    "dev": "nodemon server.js",
+    "pm": "pm2 start server.js --node-args=\"--harmony\" --name simple-home-m --log-date-format \"DD-MM-YYYY HH:mm Z\""
   },
   "author": "anafartalar",
   "license": "ISC",

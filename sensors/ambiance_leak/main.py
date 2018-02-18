@@ -7,7 +7,7 @@ dht22 = dht.DHT22(Pin(4))
 pir=Pin(5,Pin.IN)
 ONE_MINUTE=60000
 
-SERVER_URL="http://192.168.1.25:6677/"
+SERVER_URL="http://192.168.1.101:7788/"
 
 #sends sensor data to server
 def sendToServer(path,data):
