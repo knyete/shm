@@ -4,7 +4,6 @@ from machine import Pin
 micropython.alloc_emergency_exception_buf(100)
 
 dht22 = dht.DHT22(Pin(4))
-pir=Pin(5,Pin.IN)
 ONE_MINUTE=60000
 
 SERVER_URL="http://192.168.1.101:7788/"
@@ -27,10 +26,8 @@ class Ambiance:
         self.measureRef=self.measure
         self.temp=0
         self.hum=0
-
         self.tim=Timer(-1)
-        self.tim.init(period=ONE_MINUTE, mode=Timer.PERIODIC, callback=self.cb)
-    
+        
     def measure(self,_):
         path="api/devices/ambiance"
         data={}
@@ -45,13 +42,37 @@ class Ambiance:
         sendToServer(path,ujson.dumps(data))
         #print("sıcaklık: {} nem: {}".format(self.temp,self.hum))
         #print("kullanılan memory {}".format(gc.mem_alloc()))
-
     
+    def start(self):
+        self.tim.init(period=(ONE_MINUTE*15), mode=Timer.PERIODIC, callback=self.cb)
+
     def cb(self,t):
         micropython.schedule(self.measureRef, 0)
 
-#class for pir sensor
-
-
 
 ambiance=Ambiance()
+ambiance.start()
+
+#class for leak alert
+class Leak:
+    def __init__(self):
+        self.leakActionRef=self.leakAction
+        self.pin=Pin(5,Pin.IN)#D01 on the boart
+        self.timeOutTimer=Timer(-1)
+    
+    def leakAction(self,_):
+        if not self.pin.value():
+            print("leak leak")
+        
+    def start(self):
+        #self.timeOutTimer.deinit()
+        self.timeOutTimer.init(period=5000, mode=Timer.PERIODIC, callback=self.cb)
+
+
+    def cb(self,t):
+        micropython.schedule(self.leakActionRef, 0)
+
+
+
+leak=Leak()
+leak.start()

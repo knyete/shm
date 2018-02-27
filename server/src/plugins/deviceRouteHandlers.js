@@ -1,16 +1,31 @@
-const DB=require("../dbApi/db").getControlers()
+const DB = require("../dbApi/db").getControlers()
 
 
-// updates temprature and humudity values sent from relevant device
-const updateAmbianceValues=async (request, h)=>{
 
-    DB.updateAmbianceValues(request.payload);
-    //console.log(request.payload);
 
-    return {response:"ok."}
+module.exports = () => {
 
-};
+    // updates temprature and humudity values sent from relevant device
+    const updateAmbianceValues = async (request, h) => {
 
-module.exports={
-    updateAmbianceValues
+        DB.updateAmbianceValues(request.payload);
+        //console.log(request.payload);
+
+        return { response: "ok." }
+
+    };
+
+    const leakAlert = async (request, h) => {
+        console.log("leak alert");
+        return { response: "ok." }
+    }
+
+
+
+
+    return {
+        updateAmbianceValues,
+        leakAlert
+    };
+
 };
