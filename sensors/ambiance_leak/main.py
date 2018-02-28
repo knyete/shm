@@ -6,15 +6,17 @@ micropython.alloc_emergency_exception_buf(100)
 dht22 = dht.DHT22(Pin(4))
 ONE_MINUTE=60000
 
-SERVER_URL="http://192.168.1.101:7788/"
+SERVER_URL="http://192.168.1.101:7788"
+#SERVER_URL="http://192.168.1.25:7788"
 
 #sends sensor data to server
 def sendToServer(path,data):
     headers = {'Content-Type': 'application/json'} 
     url=SERVER_URL+path
-
+    
     try:
-        response = urequests.post(url,data=data, headers=headers)
+        jdata=ujson.dumps(data)
+        response = urequests.post(url,data=jdata, headers=headers)
         return response
     except Exception:
         print("Error occured while sending data to server")
@@ -29,7 +31,7 @@ class Ambiance:
         self.tim=Timer(-1)
         
     def measure(self,_):
-        path="api/devices/ambiance"
+        path="/api/devices/ambiance"
         data={}
 
         dht22.measure()
@@ -39,7 +41,7 @@ class Ambiance:
         data["hum"]=self.hum
         data["pre"]=0
         data["air"]=0
-        sendToServer(path,ujson.dumps(data))
+        sendToServer(path,data)
         #print("sıcaklık: {} nem: {}".format(self.temp,self.hum))
         #print("kullanılan memory {}".format(gc.mem_alloc()))
     
@@ -49,9 +51,9 @@ class Ambiance:
     def cb(self,t):
         micropython.schedule(self.measureRef, 0)
 
-
 ambiance=Ambiance()
 ambiance.start()
+
 
 #class for leak alert
 class Leak:
@@ -61,18 +63,20 @@ class Leak:
         self.timeOutTimer=Timer(-1)
     
     def leakAction(self,_):
+
         if not self.pin.value():
-            print("leak leak")
+            print("leak alert")
+            path="/api/devices/leakAlert"
+            data={"leak":True}
+            sendToServer(path,data)
         
     def start(self):
         #self.timeOutTimer.deinit()
-        self.timeOutTimer.init(period=5000, mode=Timer.PERIODIC, callback=self.cb)
+        self.timeOutTimer.init(period=10000, mode=Timer.PERIODIC, callback=self.cb)
 
 
     def cb(self,t):
         micropython.schedule(self.leakActionRef, 0)
-
-
 
 leak=Leak()
 leak.start()

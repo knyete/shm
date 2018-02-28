@@ -1,22 +1,22 @@
-const DB = require("../dbApi/db").getControlers()
+const DB = require("../dbApi/db")
 
 
 
 
 module.exports = () => {
 
-    // updates temprature and humudity values sent from relevant device
+    // updates Ambiance values (e.g. temprature,humudity) sent from relevant device
     const updateAmbianceValues = async (request, h) => {
 
         DB.updateAmbianceValues(request.payload);
-        //console.log(request.payload);
 
         return { response: "ok." }
 
     };
 
+
     const leakAlert = async (request, h) => {
-        console.log("leak alert");
+
         return { response: "ok." }
     }
 

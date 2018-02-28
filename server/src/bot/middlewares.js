@@ -1,15 +1,11 @@
 const DB=require("../dbApi/db");
 
 
-
-
 // Middeware used to authenticate users
 const auth=async (ctx, next)=>{
     //console.log(ctx.from);
 
-    const db=DB.getInstance();
-
-    let user=db.get("users").find({id:ctx.from.id}).value();
+    let user=DB.getUser(ctx.from.id);
 
     if(!user){
         return ctx.reply("Bu işlemi yapmaya yetkili değilsiniz!");
