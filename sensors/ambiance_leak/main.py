@@ -42,7 +42,6 @@ class Ambiance:
         data["pre"]=0
         data["air"]=0
         sendToServer(path,data)
-        #print("sıcaklık: {} nem: {}".format(self.temp,self.hum))
         #print("kullanılan memory {}".format(gc.mem_alloc()))
     
     def start(self):

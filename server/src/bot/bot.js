@@ -2,44 +2,11 @@ const Telegraf = require('telegraf');
 const Config = require('config');
 const Routes = require("./commandRoutes")();
 const Mdlw = require("./middlewares");
+const OutgoingActions=require("./outgoingActions/index")
 
 
-class Bot {
-    
-    constructor(){
-        this.bot = new Telegraf(Config.get("telegram.token"));
+const bot = new Telegraf(Config.get("telegram.token"));
 
-    }
-
-    start(){
-
-        this.bot.start((ctx) => {
-            return ctx.reply("Merhaba, bu bot sadece yetkilendirilmiş \
-            kişiler tarafından kullanılabilir.\
-            Yetkilendirilmemiş kişilerin mesajları yok sayılacaktır.");
-        });
-    
-        this.bot.use(Mdlw.auth);
-    
-        this.bot.command('help', Routes.help);
-        this.bot.command('alarm', Routes.alarm);
-        this.bot.command("ambiance",Routes.ambiance);
-    
-    
-        this.bot.startPolling();   
-    }
-
-    get telegram(){
-        return this.bot.telegram;
-    }
-}
-
-
-module.exports = new Bot()
-
-
-
-/* const bot = new Telegraf(Config.get("telegram.token"));
 
 
 const start = () => {
@@ -61,10 +28,53 @@ const start = () => {
 
 };
 
-const getInstance = () => {
-    return bot;
-};
- */
+module.exports=Object.assign({},{start},OutgoingActions(bot));
+
+
+
+
+
+
+
+
+
+
+/* class Bot {
+    
+    constructor(){
+        this._bot = new Telegraf(Config.get("telegram.token"));
+        this._outgoingActions=OutgoingActions(this._bot);
+
+    }
+
+    start(){
+
+        this._bot.start((ctx) => {
+            return ctx.reply("Merhaba, bu bot sadece yetkilendirilmiş \
+            kişiler tarafından kullanılabilir.\
+            Yetkilendirilmemiş kişilerin mesajları yok sayılacaktır.");
+        });
+    
+        this._bot.use(Mdlw.auth);
+    
+        this._bot.command('help', Routes.help);
+        this._bot.command('alarm', Routes.alarm);
+        this._bot.command("ambiance",Routes.ambiance);
+    
+    
+        this._bot.startPolling();   
+    }
+
+    outgoingActions(){
+        return this._outgoingActions;
+    }
+
+
+}
+
+
+module.exports = new Bot() */
+
 
 
 
