@@ -22,7 +22,7 @@ class Alarm{
 
         await promisedExec("echo on 0 | cec-client -s -d 1");
 
-        sleep(15000);
+        sleep(18000);
 
         let path=Path.join(process.env.HOME,"Music","alarm.mp3");
 

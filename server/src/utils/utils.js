@@ -31,9 +31,27 @@ function sleep(timeout) {
 
 };
 
+isHourInPeriod=(start,end,hour)=>{
+    const hours=[];
+	end+=1;
+	for(let i=start;i!=end;i++){	
+		if(i==24){
+			i=0;
+		}
+		hours.push(i);
+    }
+    
+    if (hours.length==0){
+        return false;
+    }
+
+    return (hours.indexOf(hour)>=0);
+};
+
 
 module.exports={
     getLocalTime,
     sleep,
-    promisedExec
+    promisedExec,
+    isHourInPeriod
 }

@@ -9,7 +9,7 @@ let db = null;
 const connect = (path) => {
     adapter = new FileSync(path);
     db = Low(adapter);
-    db.defaults({users: [],ambiance:{}}).write();
+    db.defaults({users: [],ambiance:{},parameters:{}}).write();
 }
 
 const getInstance = () => db;
