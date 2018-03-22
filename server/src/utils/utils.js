@@ -31,7 +31,10 @@ function sleep(timeout) {
 
 };
 
-isHourInPeriod=(start,end,hour)=>{
+isHourInPeriod=(start,end)=>{
+    const date = new Date();
+    const hour=parseInt(date.getHours());
+
     const hours=[];
 	end+=1;
 	for(let i=start;i!=end;i++){	

@@ -2,6 +2,7 @@ const Hapi = require("hapi");
 const Bot = require("./src/bot/bot");
 const DB=require("./src/dbApi/db");
 const Path=require("path");
+const BackTasks=require("./src/utils/backgroundTasks")();
 
 
 const server = new Hapi.Server({
@@ -14,7 +15,7 @@ const server = new Hapi.Server({
 const plugins = [
 
     {
-        plugin: require("./src/plugins/devices"),
+        plugin: require("./src/plugins/devices/devices"),
         options: {}
     }
 ];
@@ -38,11 +39,15 @@ const start = async () => {
     // start server
     await server.start();
 
+    // connect to local DB
+    DB.connect(Path.join(__dirname, "db/db.json"));
+
     // start bot
     Bot.start();
 
-    // connect to local DB
-    DB.connect(Path.join(__dirname, "db/db.json"));
+    BackTasks.run();
+
+
 
 
     return server;

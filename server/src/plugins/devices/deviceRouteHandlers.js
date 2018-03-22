@@ -1,6 +1,6 @@
-const DB = require("../dbApi/db");
-const Bot = require("../bot/bot");
-const Alarm = require("../raspi/alarm/alarm");
+const DB = require("../../dbApi/db");
+const Bot = require("../../bot/bot");
+const Alarm = require("../../raspi/alarm/alarm");
 
 // module stated for temporary calculations
 let state = {
