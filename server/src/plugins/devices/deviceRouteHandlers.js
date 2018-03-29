@@ -22,8 +22,11 @@ module.exports = () => {
 
     };
 
+
+
     // triggred when there is a leak alert at home
     const leakAlert = async (request, h) => {
+
         let now = Date.now();
         let msg = "Evde su sızıntısı tespit edildi!";
 

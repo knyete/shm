@@ -1,7 +1,6 @@
 const Ping = require('ping');
 const DB = require("../dbApi/db");
 
-const ONEHOUR=(60000*60);
 
 // this class is used to find out if users are at home checking their ip adresses
 class CheckUsersPresence {
@@ -14,6 +13,15 @@ class CheckUsersPresence {
         DB.setStatusOfUsers(status);
     }
 
+    async ping(host) {
+
+        let { alive: ping1 } = await Ping.promise.probe(host);
+        let { alive: ping2 } = await Ping.promise.probe(host);
+
+        return (ping1 || ping2)
+
+    }
+
     async check() {
 
         try {
@@ -21,7 +29,7 @@ class CheckUsersPresence {
             const IPs = DB.getUsersIPs();
             for (let host of IPs) {
 
-                let { alive } = await Ping.promise.probe(host);
+                let alive = await this.ping(host);
 
                 if (alive) {
                     this.saveStatus(true);
@@ -44,7 +52,7 @@ class CheckUsersPresence {
 
         setInterval(() => {
             this.check();
-        }, ONEHOUR);
+        }, 60000 * 20);
     }
 
 }

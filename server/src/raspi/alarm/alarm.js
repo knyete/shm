@@ -2,6 +2,7 @@
 const {spawn}=require("child_process");
 const {sleep,promisedExec}=require("../../utils/utils");
 const Path=require("path");
+const shf=require("./shouldAlarmFire");
 
 
 class Alarm{
@@ -43,4 +44,4 @@ class Alarm{
 }
 
 
-module.exports=new Alarm();
+module.exports=Object.assign({},new Alarm,shf());
