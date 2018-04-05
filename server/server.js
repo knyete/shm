@@ -31,10 +31,20 @@ const start = async () => {
         path: "/",
         handler: function (request, h) {
 
-            return "hello world";
+            return "hello from server";
 
         }
     });
+
+    server.route({
+        method: "POST",
+        path: "/test",
+        handler: function (request, h) {
+            console.log("test data", new Date().toLocaleString())
+            return "ok";
+        }
+    });
+
 
     // start server
     await server.start();
