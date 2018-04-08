@@ -1,4 +1,4 @@
-const Actions = require("./commActions/index");
+const Actions = require("./routeActions");
 
 
 // helper function to extract command and argument
@@ -21,12 +21,14 @@ extractCommArgument = (msg) => {
 
 module.exports = () => {
 
+
     // route for help
     const help = (ctx) => {
-        return ctx.reply("Kullanabileceğiniz komutlar \
-        şunlar:\n\/ambiance\n\/alarm [aç,kapa]\
-        \n\/foto");
 
+        let msg = "Kullanabileceğiniz komutlar şunlar:\n" +
+            "\/ambiance\n\/alarm [aç,kapat]\n\/foto\n\/report";
+
+        return ctx.reply(msg);
     };
 
 
@@ -36,7 +38,7 @@ module.exports = () => {
         let comm, arg;
         [comm, arg] = extractCommArgument(ctx.message.text);
 
-        let actions = Actions.getAlarmActions();
+        const actions = Actions.getAlarmActions();
         let action = actions[arg];
 
         if (!action) {
@@ -51,15 +53,23 @@ module.exports = () => {
     // route for ambiance values
     const ambiance = (ctx) => {
 
-        let actions = Actions.getAmbianceActions();
+        const actions = Actions.getAmbianceActions();
 
         ctx.reply(actions.getAmbianceValues());
 
     };
 
+    const report=(ctx)=>{
+
+        const actions = Actions.getReportActions();
+
+        ctx.reply(actions.generalReport());
+
+    };
 
 
-    return { help, alarm, ambiance };
+
+    return { help, alarm, ambiance,report };
 
 
 };

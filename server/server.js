@@ -36,14 +36,6 @@ const start = async () => {
         }
     });
 
-    server.route({
-        method: "POST",
-        path: "/test",
-        handler: function (request, h) {
-            console.log("test data", new Date().toLocaleString())
-            return "ok";
-        }
-    });
 
 
     // start server
@@ -56,8 +48,6 @@ const start = async () => {
     Bot.start();
 
     BackTasks.run();
-
-
 
 
     return server;

@@ -1,6 +1,6 @@
 const Low = require('lowdb');
 const FileSync = require('lowdb/adapters/FileSync');
-const Controllers=require("./dbControllers");
+const Models=require("./models");
 
 let adapter = null;
 let db = null;
@@ -16,4 +16,4 @@ const getInstance = () => db;
 
 
 
-module.exports = Object.assign({},{connect,getInstance},Controllers(getInstance));
+module.exports = Object.assign({},{connect,getInstance},Models(getInstance));

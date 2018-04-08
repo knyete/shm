@@ -1,6 +1,6 @@
 const Telegraf = require('telegraf');
 const Config = require('config');
-const Routes = require("./commandRoutes")();
+const Routes = require("./botRoutes")();
 const Mdlw = require("./middlewares");
 const OutgoingActions=require("./outgoingActions/index")
 
@@ -22,6 +22,7 @@ const start = () => {
     bot.command('help', Routes.help);
     bot.command('alarm', Routes.alarm);
     bot.command("ambiance",Routes.ambiance);
+    bot.command("report",Routes.report);
 
 
     bot.startPolling();
