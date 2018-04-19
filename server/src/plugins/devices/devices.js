@@ -16,6 +16,12 @@ const register=async function (server, options) {
         path:"/api/devices/leakAlert",
         handler:handlers.leakAlert
     });
+
+    server.route({
+        method:"POST",
+        path:"/api/devices/doorAlert",
+        handler:handlers.doorAlert
+    });
     
 };
 

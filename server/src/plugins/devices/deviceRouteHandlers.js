@@ -46,12 +46,32 @@ module.exports = () => {
 
     };
 
+    const doorAlert = async (request, h) => {
 
+        let msg = "Dikkat! Balkon kapısı açıldı.";
+
+        try {
+
+            if (Alarm.shouldAlarmFire()) {
+
+                Bot.sendMessageToAllUsers(msg);
+                Alarm.fire();
+            }
+
+        } catch (error) {
+            console.error(error.message);
+        }
+
+
+        return { response: "ok." };
+
+    };
 
 
     return {
         updateAmbianceValues,
-        leakAlert
+        leakAlert,
+        doorAlert
     };
 
 };

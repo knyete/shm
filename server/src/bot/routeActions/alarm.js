@@ -3,7 +3,7 @@ const DB=require("../../dbApi/db");
 
 const activateAlarm = () => {
 
-    let msg="Alarm active edildi!";
+    let msg="Alarm açıldı edildi!";
 
     try {
         DB.parameters.setAlarmSatus(true);    
@@ -18,7 +18,7 @@ const activateAlarm = () => {
 
 const deactivateAlarm = () => {
 
-    let msg="Alarm deaktive edildi!";
+    let msg="Alarm kapatıldı edildi!";
 
     try {
         DB.parameters.setAlarmSatus(false);       

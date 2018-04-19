@@ -52,10 +52,6 @@ module.exports = (getDbInstance) => {
         return areUsersAtHome;
     };
 
-
-
-
-
     
 
     const getStatusOfAlarm=()=>{

@@ -22,11 +22,18 @@ module.exports = (getDbInstance) => {
         db.set("parameters.isAlarmActivated", status).write();
     };
 
+    const getParameterValues=()=>{
+        const db = getDbInstance();
+        let pa=db.get("parameters").value();
+        return pa;
+    };
+
 
     return {
         getStatusOfAlarm,
         getNightModeTimeRange,
-        setAlarmSatus
+        setAlarmSatus,
+        getParameterValues
     }
 
 };

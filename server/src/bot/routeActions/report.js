@@ -1,21 +1,26 @@
-const DB=require("../../dbApi/db");
+const DB = require("../../dbApi/db");
 
-module.exports=()=>{
+module.exports = () => {
 
 
-    const generalReport=()=>{
+    const generalReport = () => {
 
-        return "This is a general report"
+        let { areUsersAtHome,
+            isAlarmActivated,
+            nightModeTimeRange
+        } = DB.parameters.getParameterValues();
+
+        return `Kullanıcılar ${areUsersAtHome ? "-evde-" : "-evde değil-"}\n` +
+            `Alarm ${isAlarmActivated ? "-devrede-" : "-devre dışı-"}\n`+
+            `Gece modu ${nightModeTimeRange.start} ile ${nightModeTimeRange.end} arasında.`
     };
 
 
 
-
-
     return {
-        
-        getReportActions(){
-            return{
+
+        getReportActions() {
+            return {
                 generalReport
             };
         }
