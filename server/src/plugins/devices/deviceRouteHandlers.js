@@ -48,7 +48,7 @@ module.exports = () => {
 
     const doorAlert = async (request, h) => {
 
-        let msg = "Dikkat! Balkon kapısı açıldı.";
+        let msg = "Attention! Balcony door has been opened!";
 
         try {
 
