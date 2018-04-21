@@ -4,9 +4,10 @@ const Utils = require("../../utils/utils");
 
 
 const shouldAlarmFire=()=>{
-    const isAlarmActivated=DB.getStatusOfAlarm();
-    const areUsersAtHome=DB.getStatusOfUsers();
-    const nightModeTimeRange=DB.getNightModeTimeRange();
+    
+    const isAlarmActivated=DB.parameters.getStatusOfAlarm();
+    const areUsersAtHome=DB.users.getStatusOfUsers();
+    const nightModeTimeRange=DB.parameters.getNightModeTimeRange();
 
     let isNightModeActive=Utils.isHourInPeriod(nightModeTimeRange.start,nightModeTimeRange.end);
 

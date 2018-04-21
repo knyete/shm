@@ -16,7 +16,7 @@ module.exports = () => {
     // updates Ambiance values (e.g. temprature,humudity) sent from relevant device
     const updateAmbianceValues = async (request, h) => {
 
-        DB.updateAmbianceValues(request.payload);
+        DB.ambiance.updateAmbianceValues(request.payload);
 
         return { response: "ok." };
 

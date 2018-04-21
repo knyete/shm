@@ -10,9 +10,9 @@ module.exports = () => {
             nightModeTimeRange
         } = DB.parameters.getParameterValues();
 
-        return `Kullanıcılar ${areUsersAtHome ? "-evde-" : "-evde değil-"}\n` +
-            `Alarm ${isAlarmActivated ? "-devrede-" : "-devre dışı-"}\n`+
-            `Gece modu ${nightModeTimeRange.start} ile ${nightModeTimeRange.end} arasında.`
+        return `Users are ${areUsersAtHome ? "-at home-" : "-not at home-"}\n` +
+            `Alarm is ${isAlarmActivated ? "-activated-" : "-not activated-"}\n`+
+            `Night mode is between ${nightModeTimeRange.start} and ${nightModeTimeRange.end}.`
     };
 
 

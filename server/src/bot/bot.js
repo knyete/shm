@@ -11,10 +11,11 @@ const bot = new Telegraf(Config.get("telegram.token"));
 
 const start = () => {
 
+    let msg="Hello, this bot can only be used by users people "+
+    "messages of unauthorized users will be ignored."
+
     bot.start((ctx) => {
-        return ctx.reply("Merhaba, bu bot sadece yetkilendirilmiş \
-        kişiler tarafından kullanılabilir.\
-        Yetkilendirilmemiş kişilerin mesajları yok sayılacaktır.");
+        return ctx.reply(msg);
     });
 
     bot.use(Mdlw.auth);

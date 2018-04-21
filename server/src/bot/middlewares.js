@@ -5,10 +5,10 @@ const DB=require("../dbApi/db");
 const auth=async (ctx, next)=>{
     //console.log(ctx.from);
 
-    let user=DB.getUser(ctx.from.id);
+    let user=DB.users.getUser(ctx.from.id);
 
     if(!user){
-        return ctx.reply("Bu işlemi yapmaya yetkili değilsiniz!");
+        return ctx.reply("You are not authorized to perform this action!");
         //return ctx.leaveChat(ctx.from.id);
     }
 

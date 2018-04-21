@@ -3,12 +3,12 @@ const DB=require("../../dbApi/db");
 
 const activateAlarm = () => {
 
-    let msg="Alarm açıldı edildi!";
+    let msg="The alarm has been activated!";
 
     try {
         DB.parameters.setAlarmSatus(true);    
     } catch (e) {
-        msg="Bir hata oluştu";
+        msg="An error occured!";
     }
 
     return msg;
@@ -18,12 +18,12 @@ const activateAlarm = () => {
 
 const deactivateAlarm = () => {
 
-    let msg="Alarm kapatıldı edildi!";
+    let msg="The alarm has been deactivated!";
 
     try {
         DB.parameters.setAlarmSatus(false);       
     } catch (e) {
-        msg="Bir hata oluştu";
+        msg="An error occured!";
     }
 
     return msg;
@@ -31,8 +31,8 @@ const deactivateAlarm = () => {
 };
 
 const actions = {};
-actions["aç"] = activateAlarm;
-actions["kapat"] = deactivateAlarm;
+actions["on"] = activateAlarm;
+actions["off"] = deactivateAlarm;
 
 
 

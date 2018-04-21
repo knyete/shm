@@ -25,8 +25,8 @@ module.exports = () => {
     // route for help
     const help = (ctx) => {
 
-        let msg = "Kullanabileceğiniz komutlar şunlar:\n" +
-            "\/ambiance\n\/alarm [aç,kapat]\n\/foto\n\/report";
+        let msg = "Commands you can use are:\n" +
+            "\/ambiance\n\/alarm [on,off]\n\/foto\n\/report";
 
         return ctx.reply(msg);
     };
@@ -42,8 +42,7 @@ module.exports = () => {
         let action = actions[arg];
 
         if (!action) {
-            return ctx.reply(`${comm} komutundan sonra bir boşluk \
-            bırakarak aksiyon belirtmelisiniz!`);
+            return ctx.reply(`${comm} you must define your action after putting a space after this command.`);
         }
 
 

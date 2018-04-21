@@ -10,7 +10,7 @@ class CheckUsersPresence {
     }
 
     saveStatus(status) {
-        DB.setStatusOfUsers(status);
+        DB.users.setStatusOfUsers(status);
     }
 
     async ping(host) {
@@ -26,7 +26,7 @@ class CheckUsersPresence {
 
         try {
 
-            const IPs = DB.getUsersIPs();
+            const IPs = DB.users.getUsersIPs();
             for (let host of IPs) {
 
                 let alive = await this.ping(host);
@@ -52,7 +52,7 @@ class CheckUsersPresence {
 
         setInterval(() => {
             this.check();
-        }, 60000 * 20);
+        }, 60000 * 15);
     }
 
 }
