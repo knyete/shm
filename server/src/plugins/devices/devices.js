@@ -22,6 +22,12 @@ const register=async function (server, options) {
         path:"/api/devices/doorAlert",
         handler:handlers.doorAlert
     });
+
+    server.route({
+        method:"POST",
+        path:"/api/devices/doorAlertTest",
+        handler:handlers.doorAlertTest
+    });
     
 };
 

@@ -37,9 +37,11 @@ class DoorSwitch:
         self.RESPONSE_RANGE=(60000)
    
     def doorOpenned(self,v):
+        
         delta = getDeltaMs(self.startMs)
 
         if v and delta >= self.RESPONSE_RANGE:
+            print("The door is open")
             path="/api/devices/doorAlert"
             data={}
             data["isDoorOpen"]=True

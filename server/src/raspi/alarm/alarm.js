@@ -30,7 +30,7 @@ const alarm = () => {
 
         await promisedExec("echo on 0 | cec-client -s -d 1");
 
-        sleep(18000);
+        await sleep(10000);
 
         let path = Path.join(process.env.HOME, "Music", "alarm.mp3");
 

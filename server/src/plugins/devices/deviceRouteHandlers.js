@@ -67,11 +67,33 @@ module.exports = () => {
 
     };
 
+    const doorAlertTest = async (request, h) => {
+
+        let msg = "Attention! Balcony door has been opened!";
+
+        try {
+
+
+
+            Bot.sendMessageToAllUsers(msg);
+            Alarm.fire();
+
+
+        } catch (error) {
+            console.error(error.message);
+        }
+
+
+        return { response: "ok." };
+
+    };
+
 
     return {
         updateAmbianceValues,
         leakAlert,
-        doorAlert
+        doorAlert,
+        doorAlertTest
     };
 
 };
