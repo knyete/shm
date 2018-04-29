@@ -34,8 +34,10 @@ module.exports = () => {
             state.leakLastRead = now;
 
             try {
-                await Bot.sendMessageToAllUsers(msg);
-                await Alarm.fire();
+
+                Bot.sendMessageToAllUsers(msg); // returns promise
+                Alarm.fire(); // returns promise
+
             } catch (error) {
                 console.error(error.message);
             }
@@ -73,11 +75,8 @@ module.exports = () => {
 
         try {
 
-
-
             Bot.sendMessageToAllUsers(msg);
             Alarm.fire();
-
 
         } catch (error) {
             console.error(error.message);

@@ -29,6 +29,8 @@ const alarm = () => {
         state.active = true;
 
         await promisedExec("echo on 0 | cec-client -s -d 1");
+        await sleep(1000);
+        await promisedExec("echo on 0 | cec-client -s -d 1");
 
         await sleep(10000);
 
