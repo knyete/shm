@@ -1,5 +1,6 @@
 const Ping = require('ping');
 const DB = require("../dbApi/db");
+const {sleep}=require("./utils");
 
 
 // this class is used to find out if users are at home checking their ip adresses
@@ -16,6 +17,7 @@ class CheckUsersPresence {
     async ping(host) {
 
         let { alive: ping1 } = await Ping.promise.probe(host);
+        await sleep(2000);
         let { alive: ping2 } = await Ping.promise.probe(host);
 
         return (ping1 || ping2)

@@ -13,7 +13,7 @@ function sleep(timeout) {
         resolve()
       }, timeout)
     });
-  }
+  };
 
   const promisedExec=(comm)=>{
 

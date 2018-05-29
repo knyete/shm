@@ -35,8 +35,8 @@ module.exports = () => {
 
             try {
 
-                Bot.sendMessageToAllUsers(msg); // returns promise
-                Alarm.fire(); // returns promise
+                await Bot.sendMessageToAllUsers(msg); // returns promise
+                await Alarm.fire(); // returns promise
 
             } catch (error) {
                 console.error(error.message);
@@ -56,8 +56,8 @@ module.exports = () => {
 
             if (Alarm.shouldAlarmFire()) {
 
-                Bot.sendMessageToAllUsers(msg);
-                Alarm.fire();
+                await Bot.sendMessageToAllUsers(msg);
+                await Alarm.fire();
             }
 
         } catch (error) {
@@ -75,8 +75,8 @@ module.exports = () => {
 
         try {
 
-            Bot.sendMessageToAllUsers(msg);
-            Alarm.fire();
+            await Bot.sendMessageToAllUsers(msg);
+            await Alarm.fire();
 
         } catch (error) {
             console.error(error.message);
