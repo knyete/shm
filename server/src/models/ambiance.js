@@ -7,7 +7,7 @@ const ambianceSchema = Schema({
     hum: { type: Number, default: 1 },
     gas: { type: Number, default: 1 },
     hpa: { type: Number, default: 1 },
-    createdAt: { type: Date, default: new Date() }
+    createdAt: { type: Date, default: ()=>new Date() }
 });
 
 
