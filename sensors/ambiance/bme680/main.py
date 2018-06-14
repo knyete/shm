@@ -26,12 +26,12 @@ def getDeltaMs(start=0):
 
 
 # sends sensor data to server
-def sendToServer(path):
+def sendToServer(path,data):
     headers = {'Content-Type': 'application/json'}
     url = SERVER_URL+path
 
     try:
-        jdata = ujson.dumps(sensorData)
+        jdata = ujson.dumps(data)
         response = urequests.post(url, data=jdata, headers=headers)
         return response
     except Exception:
@@ -57,7 +57,7 @@ def getSensorData():
 print("Sensor stabilizing period is starting")
 counter = 0
 # runs around 20 minute
-while counter < 12:
+while counter < 1200:
     print(counter)
     getSensorData()
     counter += 1
@@ -69,7 +69,7 @@ print("Sensor stabilizing period has ended")
 class Ambiance:
     def __init__(self):
         self.lastTime = 0
-        self.response_time = ONE_MINUTE_IN_MS
+        self.response_time = ONE_MINUTE_IN_MS*15
 
     def measureTimePassed(self):
         delta = getDeltaMs(self.lastTime)
@@ -78,14 +78,13 @@ class Ambiance:
 
     def send(self):
         path = "/api/devices/ambiance"
-        sendToServer(path)
+        sendToServer(path,sensorData)
 
     def run(self):
         if self.measureTimePassed():
             getSensorData()
             self.send()
             self.lastTime = time.ticks_ms()
-            print("data send")
 
 
 amp = Ambiance()
@@ -93,4 +92,4 @@ amp = Ambiance()
 while True:
     getSensorData()
     amp.run()
-    time.sleep(3)
+    time.sleep(2)
