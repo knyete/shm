@@ -16,8 +16,12 @@ module.exports = () => {
     // updates Ambiance values (e.g. temprature,humudity) sent from relevant device
     const saveAmbianceValues = async (request, h) => {
 
-        const ambValues=new AmbValuesM({...request.payload});
-        await ambValues.save();
+        try {
+            const ambValues=new AmbValuesM({...request.payload});
+            await ambValues.save();       
+        } catch (error) {
+            console.log(error.message)
+        }
 
         return { response: "ok." };
 
