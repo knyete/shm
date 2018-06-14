@@ -2,7 +2,7 @@
 const { spawn } = require("child_process");
 const { sleep, promisedExec } = require("../../utils/utils");
 const Path = require("path");
-const shf = require("./shouldAlarmFire");
+const sAlarmfire = require("./shouldAlarmFire");
 
 
 
@@ -60,7 +60,7 @@ const alarm = () => {
 };
 
 
-module.exports = Object.assign({}, alarm(), shf());
+module.exports = Object.assign({}, alarm(), sAlarmfire());
 
 
 

@@ -1,6 +1,7 @@
 const DB = require("../../dbApi/db");
 const Bot = require("../../bot/bot");
 const Alarm = require("../../raspi/alarm/alarm");
+const AmbValuesM=require("../../models/ambiance");
 
 // module stated for temporary calculations
 let state = {
@@ -12,11 +13,11 @@ let state = {
 
 module.exports = () => {
 
-
     // updates Ambiance values (e.g. temprature,humudity) sent from relevant device
-    const updateAmbianceValues = async (request, h) => {
+    const saveAmbianceValues = async (request, h) => {
 
-        DB.ambiance.updateAmbianceValues(request.payload);
+        const ambValues=new AmbValuesM({...request.payload});
+        await ambValues.save();
 
         return { response: "ok." };
 
@@ -89,7 +90,7 @@ module.exports = () => {
 
 
     return {
-        updateAmbianceValues,
+        saveAmbianceValues,
         leakAlert,
         doorAlert,
         doorAlertTest

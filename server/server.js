@@ -1,8 +1,14 @@
 const Hapi = require("hapi");
 const Bot = require("./src/bot/bot");
-const DB=require("./src/dbApi/db");
-const Path=require("path");
-const BackTasks=require("./src/utils/backgroundTasks")();
+const DB = require("./src/dbApi/db");
+const Path = require("path");
+const BackTasks = require("./src/utils/backgroundTasks")();
+const Mongoose = require('mongoose');
+const Config = require('config');
+
+// Use native promises
+Mongoose.Promise = global.Promise;
+
 
 
 const server = new Hapi.Server({
@@ -40,6 +46,10 @@ const start = async () => {
 
     // start server
     await server.start();
+
+    //connect to mongoDB
+    await Mongoose.connect(Config.get('mongoDB.url'))
+        .then(() => console.log("MongoDB Connected..."));
 
     // connect to local DB
     DB.connect(Path.join(__dirname, "db/db.json"));
