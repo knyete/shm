@@ -3,9 +3,16 @@ const {exec}=require("child_process");
 
 getLocalTime=()=>{
     const date = new Date();
-    let dt = `${date.getDate()}.${date.getMonth() + 1}.${date.getFullYear()} - ${date.toLocaleTimeString()}`;
+    let dt = `${date.getDate()}.${date.getMonth() + 1}.${date.getFullYear()} - ${date.toLocaleTimeString("tr-TR",{hour12:false})}`;
     return dt;
 };
+
+dateFromString=(dts)=>{
+    const date = new Date(dts);
+    let dt = `${date.getDate()}.${date.getMonth() + 1}.${date.getFullYear()} - ${date.toLocaleTimeString("tr-TR",{hour12:false})}`;
+    return dt;
+};
+
 
 function sleep(timeout) {
     return new Promise((resolve) => {
@@ -56,5 +63,6 @@ module.exports={
     getLocalTime,
     sleep,
     promisedExec,
-    isHourInPeriod
+    isHourInPeriod,
+    dateFromString
 }

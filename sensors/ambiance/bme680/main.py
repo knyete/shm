@@ -69,7 +69,7 @@ print("Sensor stabilizing period has ended")
 class Ambiance:
     def __init__(self):
         self.lastTime = 0
-        self.response_time = ONE_MINUTE_IN_MS*15
+        self.response_time = ONE_MINUTE_IN_MS*30
 
     def measureTimePassed(self):
         delta = getDeltaMs(self.lastTime)
@@ -85,6 +85,37 @@ class Ambiance:
             getSensorData()
             self.send()
             self.lastTime = time.ticks_ms()
+
+
+class Gas:
+    def __init__(self):
+        self.data=[] # will hold last 80 readings
+        self.avg=0 # avarage of first 40 readings in the array
+        self.DATA_ARRAY_SIZE=80
+    
+    def checkLastReading(self):
+        if len(self.data)!=self.DATA_ARRAY_SIZE:
+            print("Array size {}".format(len(self.data)))
+            return True
+        
+        pass
+        
+    def addLastReading(self):
+        if len(self.data)!=self.DATA_ARRAY_SIZE:
+            self.data.insert(0,int(sensorData["gas"]))
+        else:
+            self.data.pop()#delete last element
+            self.data.insert(0,int(sensorData["gas"]))#add new element to first position
+            self.avg=round(sum(self.data[-40:])/40)
+            print("Avg {}".format(self.avg))
+    
+    def trigerAlarm(self):
+        pass 
+    def run(self):
+        if self.checkLastReading():
+            self.addLastReading()
+
+
 
 
 amp = Ambiance()
