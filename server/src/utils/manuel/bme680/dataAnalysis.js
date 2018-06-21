@@ -15,8 +15,7 @@ const getDataFromDb = (limit) => {
 
     return AmbValuesM.find().
         sort({ _id: 1 }).
-        limit(limit)
-    exec()
+        limit(limit).exec()
 
 };
 

@@ -50,19 +50,22 @@ def getSensorData():
             # turn the VOC value into KOhms
             sensorData["gas"] = round(sensor.data.gas_resistance/1000)
             sensorData["hpa"] = round(sensor.data.pressure)
+            print(sensorData)
             break
+
 
 
 # at the begining this work time is needed to stabilize sensor readings
 print("Sensor stabilizing period is starting")
 counter = 0
-# runs around 20 minute
-while counter < 1200:
+# runs around 20 minute to warm up the sensor
+while counter < 600:
     print(counter)
     getSensorData()
     counter += 1
-    time.sleep(1)
+    time.sleep(2)
 print("Sensor stabilizing period has ended")
+
 
 
 # Class to send Ambiance values to server
@@ -79,48 +82,77 @@ class Ambiance:
     def send(self):
         path = "/api/devices/ambiance"
         sendToServer(path,sensorData)
+        print("Ambiance data sent to server")
 
     def run(self):
         if self.measureTimePassed():
-            getSensorData()
             self.send()
             self.lastTime = time.ticks_ms()
 
 
-class Gas:
+#Class to measure air quality based on sensor's VOC value
+class AirQuality:
     def __init__(self):
-        self.data=[] # will hold last 80 readings
-        self.avg=0 # avarage of first 40 readings in the array
-        self.DATA_ARRAY_SIZE=80
+        self.data=[] # will hold last the VOC readings
+        self.avg=0 # avarage of first 30 readings in the array
+        self.lastTimeDataSent = 0
+        self.DATA_ARRAY_SIZE=70
+        self.TRIGER_GAP=0.04 # this percentange will be subtracted from avg
+        self.ALARM_INTERVAL=ONE_MINUTE_IN_MS*3 #every 3 minute set the alarm
     
-    def checkLastReading(self):
+    def checkLastReading(self,gas):
         if len(self.data)!=self.DATA_ARRAY_SIZE:
-            print("Array size {}".format(len(self.data)))
             return True
         
-        pass
+        #baseline is %3 lover then AVG
+        baseline=round((self.avg-(self.avg*self.TRIGER_GAP)))
+
+        if gas<=baseline:
+            return False
+        else:
+            return True
         
-    def addLastReading(self):
+    def addLastReading(self,gas):
         if len(self.data)!=self.DATA_ARRAY_SIZE:
-            self.data.insert(0,int(sensorData["gas"]))
+            self.data.insert(0,gas)
+            print("data array size {}".format(len(self.data)))
         else:
             self.data.pop()#delete last element
-            self.data.insert(0,int(sensorData["gas"]))#add new element to first position
-            self.avg=round(sum(self.data[-40:])/40)
+            self.data.insert(0,gas)#add new element to first position
+            self.avg=round(sum(self.data[-30:])/30) # calculate avg
             print("Avg {}".format(self.avg))
     
+    def send(self):
+        path = "/api/devices/gasAlarm"
+        payload={"gasAlarm":True}
+        sendToServer(path,payload)
+    
+    def measureTimePassed(self):
+        delta = getDeltaMs(self.lastTimeDataSent)
+        result = (delta >= self.ALARM_INTERVAL)
+        return result
+    
     def trigerAlarm(self):
-        pass 
+        # if called, gas alarm only can inform server at defined interval
+        if self.measureTimePassed():
+            self.send()
+            self.lastTimeDataSent=time.ticks_ms()
+
     def run(self):
-        if self.checkLastReading():
-            self.addLastReading()
+        gas=int(sensorData["gas"])
+        if self.checkLastReading(gas):
+            self.addLastReading(gas)
+        else:
+            self.trigerAlarm()
 
 
 
-
+air=AirQuality()
 amp = Ambiance()
-#Run
+
+#Run loop
 while True:
     getSensorData()
+    air.run()
     amp.run()
     time.sleep(2)

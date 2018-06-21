@@ -24,6 +24,21 @@ const register=async function (server, options) {
 
     server.route({
         method:"POST",
+        path:"/api/devices/gasAlarm",
+        handler:handlers.gasAlert,
+        options:{
+            validate:{
+                payload:{
+                    gasAlarm:Joi.bool().required()
+                }
+            }
+        }
+    });
+
+
+
+    server.route({
+        method:"POST",
         path:"/api/devices/leakAlert",
         handler:handlers.leakAlert
     });
@@ -34,11 +49,11 @@ const register=async function (server, options) {
         handler:handlers.doorAlert
     });
 
-    server.route({
+/*     server.route({
         method:"POST",
         path:"/api/devices/doorAlertTest",
         handler:handlers.doorAlertTest
-    });
+    }); */
     
 };
 

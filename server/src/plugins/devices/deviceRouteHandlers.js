@@ -1,7 +1,7 @@
 const DB = require("../../dbApi/db");
 const Bot = require("../../bot/bot");
 const Alarm = require("../../raspi/alarm/alarm");
-const AmbValuesM=require("../../models/ambiance");
+const AmbValuesM = require("../../models/ambiance");
 
 // module stated for temporary calculations
 let state = {
@@ -17,8 +17,8 @@ module.exports = () => {
     const saveAmbianceValues = async (request, h) => {
 
         try {
-            const ambValues=new AmbValuesM({...request.payload});
-            await ambValues.save();       
+            const ambValues = new AmbValuesM({ ...request.payload });
+            await ambValues.save();
         } catch (error) {
             console.log(error.message)
         }
@@ -92,11 +92,29 @@ module.exports = () => {
 
     };
 
+    const gasAlert = async (request, h) => {
+        let msg = "Attention! Gas alert has been fired, check the house!";
+
+        try {
+
+            await Bot.sendMessageToAllUsers(msg);
+            await Alarm.fire();
+
+        } catch (error) {
+            console.error(error.message);
+        }
+
+
+        return { response: "ok." };
+
+    };
+
 
     return {
         saveAmbianceValues,
         leakAlert,
         doorAlert,
+        gasAlert,
         doorAlertTest
     };
 
