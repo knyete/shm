@@ -54,11 +54,13 @@ module.exports = () => {
 
         const actions = Actions.getAmbianceActions();
 
-        ctx.reply(actions.getAmbianceValues());
+        actions.getLastAmbianceRecord().then((response) => {
+            ctx.reply(response);
+        });
 
     };
 
-    const report=(ctx)=>{
+    const report = (ctx) => {
 
         const actions = Actions.getReportActions();
 
@@ -68,7 +70,7 @@ module.exports = () => {
 
 
 
-    return { help, alarm, ambiance,report };
+    return { help, alarm, ambiance, report };
 
 
 };

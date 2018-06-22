@@ -93,12 +93,15 @@ module.exports = () => {
     };
 
     const gasAlert = async (request, h) => {
-        let msg = "Attention! Gas alert has been fired, check the house!";
+        let msg = "Attention! Air quality has dropped significantly, check the house!";
 
         try {
 
-            await Bot.sendMessageToAllUsers(msg);
-            await Alarm.fire();
+            if (Alarm.shouldAlarmFire()) {
+
+                await Bot.sendMessageToAllUsers(msg);
+                await Alarm.fire();
+            }
 
         } catch (error) {
             console.error(error.message);

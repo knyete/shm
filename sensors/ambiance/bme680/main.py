@@ -96,15 +96,15 @@ class AirQuality:
         self.data=[] # will hold last the VOC readings
         self.avg=0 # avarage of first 30 readings in the array
         self.lastTimeDataSent = 0
-        self.DATA_ARRAY_SIZE=70
-        self.TRIGER_GAP=0.04 # this percentange will be subtracted from avg
-        self.ALARM_INTERVAL=ONE_MINUTE_IN_MS*3 #every 3 minute set the alarm
+        self.DATA_ARRAY_SIZE=60
+        self.TRIGER_GAP=0.08 # this percentange will be subtracted from avg
+        self.ALARM_INTERVAL=ONE_MINUTE_IN_MS*4 #every 4 minute set the alarm
     
     def checkLastReading(self,gas):
         if len(self.data)!=self.DATA_ARRAY_SIZE:
             return True
         
-        #baseline is %3 lover then AVG
+        #baseline is %8 lover then AVG
         baseline=round((self.avg-(self.avg*self.TRIGER_GAP)))
 
         if gas<=baseline:

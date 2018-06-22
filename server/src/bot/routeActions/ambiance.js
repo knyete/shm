@@ -1,6 +1,54 @@
-const DB=require("../../dbApi/db");
+//const DB=require("../../dbApi/db");
+const Ambiance = require("../../models/ambiance");
+const Utils = require("../../utils/utils");
 
-const getAmbianceValues=()=>{
+
+
+
+
+module.exports = () => {
+
+    const getLastAmbianceRecord = async () => {
+
+        let msg = "";
+
+        try {
+            // get the last record
+            const docs = await Ambiance.find().
+                sort({ _id: -1 }).
+                limit(1).exec();
+
+            if (docs) {
+                let { temp, hum, gas, hpa, createdAt } = docs[0];
+                createdAt = Utils.dateFromString(createdAt);
+
+                msg = `Temperature: ${temp}°C, Humidity : %${hum},\nAir Pressure : %${hpa}, Air Quality : ${gas} \n(${createdAt})`;
+
+            } else {
+                msg = "There is no record in the database!"
+            }
+
+        } catch (error) {
+            msg = error.message;
+        }
+
+        return msg;
+
+    };
+
+
+
+    return {
+        getAmbianceActions() {
+            return {
+                getLastAmbianceRecord
+            };
+
+        }
+    }
+};
+
+/* const getAmbianceValues=()=>{
     const db=DB.getInstance();
 
     let msrmts=db.get("ambiance").value();
@@ -9,17 +57,4 @@ const getAmbianceValues=()=>{
     return `Sıcaklık: ${temp}, Nem : %${hum},\nBasınç : %${pre}, \
     Hava Kalitesi : %${air}\n(${time})`;
 
-}
-
-const actions = {getAmbianceValues};
-
-
-module.exports=()=>{
-
-    return {
-        getAmbianceActions(){
-            return actions;
-
-        }
-    }
-};
+} */
