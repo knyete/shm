@@ -29,7 +29,7 @@ module.exports = () => {
             }
 
         } catch (error) {
-            msg = error.message;
+            msg = `ERROR : ${error.message}`;
         }
 
         return msg;

@@ -50,7 +50,6 @@ def getSensorData():
             # turn the VOC value into KOhms
             sensorData["gas"] = round(sensor.data.gas_resistance/1000)
             sensorData["hpa"] = round(sensor.data.pressure)
-            print(sensorData)
             break
 
 
@@ -62,6 +61,7 @@ counter = 0
 while counter < 600:
     print(counter)
     getSensorData()
+    print(sensorData)
     counter += 1
     time.sleep(2)
 print("Sensor stabilizing period has ended")
@@ -97,15 +97,16 @@ class AirQuality:
         self.avg=0 # avarage of first 30 readings in the array
         self.lastTimeDataSent = 0
         self.DATA_ARRAY_SIZE=60
-        self.TRIGER_GAP=0.08 # this percentange will be subtracted from avg
-        self.ALARM_INTERVAL=ONE_MINUTE_IN_MS*4 #every 4 minute set the alarm
+        self.TRIGER_GAP=0.25 # this percentange will be subtracted from avg
+        self.ALARM_INTERVAL=ONE_MINUTE_IN_MS*15 #every 15 minute set the alarm
     
     def checkLastReading(self,gas):
         if len(self.data)!=self.DATA_ARRAY_SIZE:
             return True
         
-        #baseline is %8 lover then AVG
+        #baseline
         baseline=round((self.avg-(self.avg*self.TRIGER_GAP)))
+        print("Avg {}, Baseline {}, Gas {}".format(self.avg,baseline,gas))
 
         if gas<=baseline:
             return False
@@ -115,12 +116,11 @@ class AirQuality:
     def addLastReading(self,gas):
         if len(self.data)!=self.DATA_ARRAY_SIZE:
             self.data.insert(0,gas)
-            print("data array size {}".format(len(self.data)))
+            print("Data array size {}".format(len(self.data)))
         else:
             self.data.pop()#delete last element
             self.data.insert(0,gas)#add new element to first position
             self.avg=round(sum(self.data[-30:])/30) # calculate avg
-            print("Avg {}".format(self.avg))
     
     def send(self):
         path = "/api/devices/gasAlarm"
@@ -144,6 +144,8 @@ class AirQuality:
             self.addLastReading(gas)
         else:
             self.trigerAlarm()
+
+            
 
 
 
