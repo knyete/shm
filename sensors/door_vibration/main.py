@@ -27,20 +27,25 @@ def getDeltaMs(start=0):
     return delta
 
 
-
 class DoorSwitch:
 
     def __init__(self):
         self.doorOpennedRef=self.doorOpenned
         self.pin=Pin(14,Pin.IN,Pin.PULL_UP)
         self.startMs=0
-        self.RESPONSE_RANGE=(60000)
-   
-    def doorOpenned(self,v):
-        
-        delta = getDeltaMs(self.startMs)
+        self.ALARM_INTERVAL=60000
+    
+    def makeSureDoorOpenned(self):
+        read1=self.pin.value()
+        time.sleep(3)
+        read2=self.pin.value()
+        return bool(read1 and read2);
 
-        if v and delta >= self.RESPONSE_RANGE:
+    def doorOpenned(self,v):     
+        delta = getDeltaMs(self.startMs)
+        isSure=self.makeSureDoorOpenned()
+
+        if isSure and (delta >= self.ALARM_INTERVAL):
             print("The door is open")
             path="/api/devices/doorAlert"
             data={}
@@ -57,3 +62,5 @@ class DoorSwitch:
 
 doorSwitch=DoorSwitch()
 doorSwitch.activate()
+
+
