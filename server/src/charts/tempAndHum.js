@@ -123,9 +123,11 @@ module.exports = ({ htmlFilePath,tmpPath }) => {
         let records=await getRecordsfromDB(timeRangeOptions.HOURLY);
         const chartData=prepareChartData(timeRangeOptions.HOURLY,records);
 
-        const browser = await puppeteer.launch({ headless: true });
+        //const browser = await puppeteer.launch({ headless: true });
+
+        // executablePath is necessary on raspberry pi
+        const browser = await puppeteer.launch({executablePath: '/usr/bin/chromium-browser'});
         const page = await browser.newPage();
-        //page.on('console', msg => console.log('PAGE LOG:', msg.text()));
 
         await page.goto(htmlFilePath);
 
