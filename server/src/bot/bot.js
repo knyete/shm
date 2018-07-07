@@ -11,8 +11,8 @@ const bot = new Telegraf(Config.get("telegram.token"));
 
 const start = () => {
 
-    let msg="Hello, this bot can only be used by users people "+
-    "messages of unauthorized users will be ignored."
+    let msg="Sorry my friend, I'm not allowed to talk to strangers. "+
+    "So, your messages are going be ignored."
 
     bot.start((ctx) => {
         return ctx.reply(msg);
@@ -24,6 +24,7 @@ const start = () => {
     bot.command('alarm', Routes.alarm);
     bot.command("ambiance",Routes.ambiance);
     bot.command("report",Routes.report);
+    bot.command("chart",Routes.chart);
 
 
     bot.startPolling();

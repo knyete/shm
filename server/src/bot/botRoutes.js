@@ -68,9 +68,23 @@ module.exports = () => {
 
     };
 
+    const chart = (ctx) => {
+        //ctx.replyWithPhoto('https://picsum.photos/200/300/');
+        const actions = Actions.getChartActions();
+        
+        ctx.reply("Ok, just a second.");
+
+        actions.createTempAndHumChart().then((stream) => {
+            ctx.replyWithPhoto({ source: stream });
+        }).catch((err) => {
+            ctx.reply(err.message);
+        });
+
+    };
 
 
-    return { help, alarm, ambiance, report };
+
+    return { help, alarm, ambiance, report, chart };
 
 
 };

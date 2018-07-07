@@ -10,11 +10,10 @@ var CSV = require("fast-csv");
 Mongoose.Promise = global.Promise;
 
 
-// turn date in to logal date
 const getDataFromDb = (limit) => {
 
     return AmbValuesM.find().
-        sort({ _id: 1 }).
+        sort({ _id: -1 }).
         limit(limit).exec()
 
 };
@@ -57,7 +56,7 @@ const main = async () => {
     await Mongoose.connect(Config.get('mongoDB.url'))
         .then(() => console.log("MongoDB Connected..."));
 
-    let data = await getDataFromDb(1000);
+    let data = await getDataFromDb(50);
     data = data.map((doc) => normalizeObject(doc));
 
     await jsonToCsv(data);

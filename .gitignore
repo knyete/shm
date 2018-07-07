@@ -67,3 +67,5 @@ config/
 # DB folder
 db/
 
+#Temporary docs
+tmp/
