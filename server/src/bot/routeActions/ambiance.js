@@ -22,7 +22,7 @@ module.exports = () => {
                 let { temp, hum, gas, hpa, createdAt } = docs[0];
                 createdAt = Utils.dateFromString(createdAt);
 
-                msg = `Temperature: ${temp}°C, Humidity : %${hum},\nAir Pressure : %${hpa}, Air Quality : ${gas} \n(${createdAt})`;
+                msg = `Temperature: ${temp}°, Humidity : %${hum},\nAir Pressure : ${hpa}, Air Quality : ${gas} \n(${createdAt})`;
 
             } else {
                 msg = "There is no record in the database!"

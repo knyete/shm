@@ -151,7 +151,6 @@ module.exports = ({ htmlFilePath,tmpPath }) => {
     };
 
 
-
     return {
         hourlyTempAndHum
 
