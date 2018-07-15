@@ -51,8 +51,8 @@ const register=async function (server, options) {
 
 /*     server.route({
         method:"POST",
-        path:"/api/devices/doorAlertTest",
-        handler:handlers.doorAlertTest
+        path:"/api/devices/alarmTest",
+        handler:handlers.alarmTest
     }); */
     
 };

@@ -11,8 +11,8 @@ const bot = new Telegraf(Config.get("telegram.token"));
 
 const start = () => {
 
-    let msg="Sorry my friend, I'm not allowed to talk to strangers. "+
-    "So, your messages are going be ignored."
+    let msg="Hi, I'm here to help you with systems installed at home."+
+    "So, just tell me what you want to do or learn."
 
     bot.start((ctx) => {
         return ctx.reply(msg);

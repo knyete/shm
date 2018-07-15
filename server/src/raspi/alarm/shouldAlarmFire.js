@@ -1,30 +1,28 @@
-const DB = require("../../dbApi/db");
-const Utils = require("../../utils/utils");
+const Parameter = require("../../models/parameter");
+const Utils=require("../../utils/utils");
 
 
 
-const shouldAlarmFire=()=>{
-    
-    const isAlarmActivated=DB.parameters.getStatusOfAlarm();
-    const areUsersAtHome=DB.users.getStatusOfUsers();
-    const nightModeTimeRange=DB.parameters.getNightModeTimeRange();
+const shouldAlarmFire = async () => {
 
-    let isNightModeActive=Utils.isHourInPeriod(nightModeTimeRange.start,nightModeTimeRange.end);
+    let { areUsersAtHome, isAlarmActivated, nightModeTimeRange } = await Parameter.findOne().exec();
+
+    let isNightModeActive = Utils.isHourInPeriod(nightModeTimeRange.start, nightModeTimeRange.end);
 
 
-    if(isNightModeActive){
+    if (isNightModeActive) {
         return true;
-    }else if (isAlarmActivated && areUsersAtHome){
+    } else if (isAlarmActivated && areUsersAtHome) {
         return false;
-    } else if(!isAlarmActivated){
+    } else if (!isAlarmActivated) {
         return false;
-    }else{
+    } else {
         return true;
     }
 
 }
 
-module.exports=()=>{
+module.exports = () => {
     return {
         shouldAlarmFire
     };

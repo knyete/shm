@@ -1,5 +1,6 @@
 const Ping = require('ping');
-const DB = require("../dbApi/db");
+const Parameter = require("../models/parameter");
+const User = require("../models/user");
 const { sleep } = require("./utils");
 
 
@@ -10,8 +11,8 @@ class CheckUsersPresence {
 
     }
 
-    saveStatus(status) {
-        DB.users.setStatusOfUsers(status);
+    async saveStatus(status) {
+        await Parameter.updateOne({},{areUsersAtHome:status}).exec();
     }
 
     async ping(host) {
@@ -26,24 +27,29 @@ class CheckUsersPresence {
 
     async check() {
         let isAlive = false;
+        let IPs=[];
 
         try {
 
-            const IPs = DB.users.getUsersIPs();
+            const users = await User.find().exec();
+            users.forEach((usr)=>{
+                IPs=IPs.concat([...usr.deviceIPs]);
+            });
+
             for (let host of IPs) {
 
                 isAlive = await this.ping(host);
 
                 if (isAlive) {
-                    this.saveStatus(isAlive);
+                    await this.saveStatus(isAlive);
                     return this.scheduleTimeout(isAlive); // if one of users at home
                 }
             }
 
-            this.saveStatus(isAlive);
+            await this.saveStatus(isAlive);
 
         } catch (error) {
-            console.error(error.message)
+            console.error(error)
         }
 
         this.scheduleTimeout(isAlive);

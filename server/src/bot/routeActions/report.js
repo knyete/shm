@@ -1,20 +1,19 @@
-const DB = require("../../dbApi/db");
+const Parameter = require("../../models/parameter");
 
 module.exports = () => {
 
 
-    const generalReport = () => {
+    const generalReport = async () => {
 
         let { areUsersAtHome,
             isAlarmActivated,
             nightModeTimeRange
-        } = DB.parameters.getParameterValues();
+        } = await Parameter.findOne({}).exec();
 
-        return `Users are ${areUsersAtHome ? "-at home-" : "-not at home-"}\n` +
+        return `Residents are ${areUsersAtHome ? "-at home-" : "-not at home-"}\n` +
             `Alarm is ${isAlarmActivated ? "-activated-" : "-not activated-"}\n`+
             `Night mode is between ${nightModeTimeRange.start} and ${nightModeTimeRange.end}.`
     };
-
 
 
     return {

@@ -33,38 +33,53 @@ module.exports = () => {
 
 
     // route form alarm
-    const alarm = (ctx) => {
+    const alarm = async (ctx) => {
 
         let comm, arg;
-        [comm, arg] = extractCommArgument(ctx.message.text);
 
-        const actions = Actions.getAlarmActions();
-        let action = actions[arg];
+        try {
+            [comm, arg] = extractCommArgument(ctx.message.text);
 
-        if (!action) {
-            return ctx.reply(`${comm} you must define your action after putting a space after this command.`);
+            const actions = Actions.getAlarmActions();
+            let action = actions[arg];
+
+            if (!action) {
+                return ctx.reply(`${comm} you must define your action after putting a space after this command.`);
+            }
+
+            let response=await action();
+
+            ctx.reply(response);
+            
+        } catch (error) {
+            ctx.reply("An error occured!");      
         }
-
-
-        ctx.reply(action());
+ 
     };
 
     // route for ambiance values
-    const ambiance = (ctx) => {
+    const ambiance = async (ctx) => {
 
         const actions = Actions.getAmbianceActions();
 
-        actions.getLastAmbianceRecord().then((response) => {
-            ctx.reply(response);
-        });
-
+        try {
+            let response=await actions.getLastAmbianceRecord();
+            ctx.reply(response);      
+        } catch (error) {
+            ctx.reply("An error occured!");
+        }
+    
     };
 
-    const report = (ctx) => {
-
+    const report = async (ctx) => {
         const actions = Actions.getReportActions();
 
-        ctx.reply(actions.generalReport());
+        try {
+            let response=await actions.generalReport();
+            ctx.reply(response);     
+        } catch (error) {
+            ctx.reply("An error occured!");
+        }
 
     };
 
@@ -77,7 +92,7 @@ module.exports = () => {
         actions.createTempAndHumChart().then((stream) => {
             ctx.replyWithPhoto({ source: stream });
         }).catch((err) => {
-            ctx.reply(err.message);
+            ctx.reply("An error occured!");
         });
 
     };

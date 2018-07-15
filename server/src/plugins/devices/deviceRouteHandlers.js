@@ -1,4 +1,3 @@
-const DB = require("../../dbApi/db");
 const Bot = require("../../bot/bot");
 const Alarm = require("../../raspi/alarm/alarm");
 const AmbValuesM = require("../../models/ambiance");
@@ -44,7 +43,7 @@ module.exports = () => {
                 await Alarm.fire(); // returns promise
 
             } catch (error) {
-                console.error(error.message);
+                console.error(error);
             }
 
         }
@@ -58,15 +57,16 @@ module.exports = () => {
         let msg = "Attention! Balcony door has been opened!";
 
         try {
+            let alarmFire = await Alarm.shouldAlarmFire();
 
-            if (Alarm.shouldAlarmFire()) {
+            if (alarmFire) {
 
                 await Bot.sendMessageToAllUsers(msg);
                 await Alarm.fire();
             }
 
         } catch (error) {
-            console.error(error.message);
+            console.error(error);
         }
 
 
@@ -74,40 +74,38 @@ module.exports = () => {
 
     };
 
-    const doorAlertTest = async (request, h) => {
 
-        let msg = "Attention! Balcony door has been opened!";
-
-        try {
-
-            await Bot.sendMessageToAllUsers(msg);
-            await Alarm.fire();
-
-        } catch (error) {
-            console.error(error.message);
-        }
-
-
-        return { response: "ok." };
-
-    };
 
     const gasAlert = async (request, h) => {
         let msg = "Attention! Air quality has dropped significantly, check the house!";
 
         try {
+            let alarmFire = await Alarm.shouldAlarmFire();
 
-            if (Alarm.shouldAlarmFire()) {
+            if (alarmFire) {
 
                 await Bot.sendMessageToAllUsers(msg);
                 await Alarm.fire();
             }
 
         } catch (error) {
-            console.error(error.message);
+            console.error(error);
         }
 
 
+        return { response: "ok." };
+
+    };
+
+
+    const alarmTest = async (request, h) => {
+
+        try {
+            let alarmFire = await Alarm.shouldAlarmFire();
+            console.log("shouldAlarmFire", alarmFire);
+        } catch (error) {
+            console.error(error);
+        }
         return { response: "ok." };
 
     };
@@ -118,7 +116,7 @@ module.exports = () => {
         leakAlert,
         doorAlert,
         gasAlert,
-        doorAlertTest
+        alarmTest
     };
 
 };

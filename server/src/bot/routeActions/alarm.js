@@ -1,33 +1,22 @@
-const DB=require("../../dbApi/db");
+const Parameter = require("../../models/parameter");
 
 
-const activateAlarm = () => {
+const activateAlarm = async () => {
 
-    let msg="The alarm has been activated!";
+    let msg = "The alarm has been activated!";
 
-    try {
-        DB.parameters.setAlarmSatus(true);    
-    } catch (e) {
-        msg="An error occured!";
-    }
-
+    await Parameter.updateOne({}, { isAlarmActivated: true }).exec();
     return msg;
 
 };
 
 
-const deactivateAlarm = () => {
+const deactivateAlarm = async () => {
 
-    let msg="The alarm has been deactivated!";
+    let msg = "The alarm has been deactivated!";
 
-    try {
-        DB.parameters.setAlarmSatus(false);       
-    } catch (e) {
-        msg="An error occured!";
-    }
-
+    await Parameter.updateOne({}, { isAlarmActivated: false }).exec();
     return msg;
-
 };
 
 const actions = {};
