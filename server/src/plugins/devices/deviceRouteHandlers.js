@@ -62,7 +62,7 @@ module.exports = () => {
             if (alarmFire) {
 
                 await Bot.sendMessageToAllUsers(msg);
-                await Alarm.fire();
+                //await Alarm.fire();
             }
 
         } catch (error) {
