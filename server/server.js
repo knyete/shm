@@ -10,7 +10,7 @@ Mongoose.Promise = global.Promise;
 
 
 
-const server = new Hapi.Server({
+const server = Hapi.server({
     host: '0.0.0.0',
     port: 7788
 });
@@ -42,17 +42,17 @@ const start = async () => {
     });
 
 
-
     // start server
     await server.start();
 
     //connect to mongoDB
-    await Mongoose.connect(Config.get('mongoDB.url'))
-        .then(() => console.log("MongoDB Connected..."));
+    await Mongoose.connect(Config.get('mongoDB.url'));
+    console.log("MongoDB Connected...")
 
     // start bot
     Bot.start();
 
+    // start repetitive tasks
     BackTasks.run();
 
 
@@ -66,3 +66,20 @@ start().then((server) => {
     console.log(err);
     process.exit(1);
 });
+
+
+
+const gracefulShutdown=async(signal,code)=>{
+
+    try {
+        await server.stop();
+        await Mongoose.disconnect();
+        process.exit(code)
+    } catch (error) {
+        console.log(error);
+        process.exit(1);
+    }
+
+};
+
+process.on('SIGINT', gracefulShutdown);
